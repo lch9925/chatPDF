@@ -49,20 +49,24 @@ if uploaded_file is not None:
 
 
 
-#loader = PyPDFLoader("unsu.pdf")
-#pages = loader.load_and_split()
+    #loader = PyPDFLoader("unsu.pdf")
+    #pages = loader.load_and_split()
 
-#Splitter
-text_splitter = RecursiveCharacterTextSplitter(
-    # Set a really small chunk size, just to show.
-    chunk_size=300,
-    chunk_overlap = 20,
-    length_function = len,
-    is_separator_regex = False,
+    #Splitter
+    text_splitter = RecursiveCharacterTextSplitter(
+        # Set a really small chunk size, just to show.
+        chunk_size=300,
+        chunk_overlap = 20,
+        length_function = len,
+        is_separator_regex = False,
     
-)
-
-texts = text_splitter.split_documents(pages)
+    )
+    if pages:
+        texts = text_splitter.split_documents(pages)
+    else:
+        st.error("❌ PDF에서 페이지를 불러오지 못했습니다.")
+else:
+    st.warning("📂 먼저 PDF 파일을 업로드하세요")
 
 #embeddings
 embeddings_model = OpenAIEmbeddings(model="text-embedding-3-small",
@@ -113,3 +117,4 @@ if st.button("질문하기"):
         result = rag_chain.invoke(question)
 
         st.write(result)
+
