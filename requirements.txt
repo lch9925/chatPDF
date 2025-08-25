@@ -5,4 +5,5 @@ langchain-openai
 langchain-chroma
 chromadb
 pysqlite3-binary
+pypdf
 python-dotenv
