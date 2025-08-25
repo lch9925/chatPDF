@@ -43,12 +43,14 @@ def pdf_to_document(uploaded_file):
 #업로드된 파일처리
 
 if uploaded_file is not None:
+    st.success(f"✅ {uploaded_file.name} 업로드 완료")
     pages=pdf_to_document(uploaded_file)
+    st.write(f"📑 총 {len(pages)} 페이지 로드됨")
 
 
 
-loader = PyPDFLoader("unsu.pdf")
-pages = loader.load_and_split()
+#loader = PyPDFLoader("unsu.pdf")
+#pages = loader.load_and_split()
 
 #Splitter
 text_splitter = RecursiveCharacterTextSplitter(
@@ -109,4 +111,5 @@ if st.button("질문하기"):
 
         #Question
         result = rag_chain.invoke(question)
+
         st.write(result)
