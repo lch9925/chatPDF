@@ -63,25 +63,26 @@ if uploaded_file is not None:
     )
     if pages:
         texts = text_splitter.split_documents(pages)
+
+
+
+        #embeddings
+        embeddings_model = OpenAIEmbeddings(model="text-embedding-3-small",
+            # With the 'text-embedding-3' class
+            # if models, you can specify the size
+            # if the embeddings you wnat returned
+            # dimensions=1024
+        )
+
+        import chromadb
+        chromadb.api.client.SharedSystemClient.clear_system_cache()
+
+        #chroma DB
+        db= Chroma.from_documents(texts, embeddings_model)
     else:
         st.error("❌ PDF에서 페이지를 불러오지 못했습니다.")
 else:
     st.warning("📂 먼저 PDF 파일을 업로드하세요")
-
-#embeddings
-embeddings_model = OpenAIEmbeddings(model="text-embedding-3-small",
-    # With the 'text-embedding-3' class
-    # if models, you can specify the size
-    # if the embeddings you wnat returned
-    # dimensions=1024
-)
-
-import chromadb
-chromadb.api.client.SharedSystemClient.clear_system_cache()
-
-#chroma DB
-db= Chroma.from_documents(texts, embeddings_model)
-
 #User Input
 st.header("PDF에게 질문해보세요!!")
 question=st.text_input("질문을 입력하세요.")
@@ -117,4 +118,5 @@ if st.button("질문하기"):
         result = rag_chain.invoke(question)
 
         st.write(result)
+
 
