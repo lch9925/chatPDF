@@ -1,0 +1,8 @@
+streamlit
+langchain
+langchain-community
+langchain-openai
+langchain-chroma
+chromadb
+pysqlite3-binary
+python-dotenv
